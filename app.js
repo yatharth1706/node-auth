@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+require('dotenv').config()
 const app = express();
 
 // middleware
@@ -10,9 +10,12 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb+srv://shaun:test1234@cluster0.del96.mongodb.net/node-auth';
+const dbURI = process.env.MONGOOSE_DB_URI;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-  .then((result) => app.listen(3000))
+  .then((result) => {
+    console.log("App is working on port 3000")
+    app.listen(3000)
+  })
   .catch((err) => console.log(err));
 
 // routes
